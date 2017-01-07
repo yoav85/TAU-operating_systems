@@ -1,10 +1,10 @@
 import re
 
-path = "main.c.txt"
+path = "hw3.c.txt"
 
 f = open(path, 'r');
 rc_var_name = "";
-user_funcs = set(["exit", "strerror", "printf", "close", "closedir"]) # not really user-defined functions, but we don't need to check their return value
+user_funcs = set(["exit", "strerror", "printf", "close", "closedir", "sizeof", "free", "pthread_exit", "srand", "time", "rand", "sleep"]) # not really user-defined functions, but we don't need to check their return value
 line_count = 0
 
 for line in f:
@@ -27,7 +27,7 @@ for line in f:
 	else:
 		#check if the current line calls another function
 		match_count = 0
-		for match_sub in re.finditer("((?P<assignvar>[a-zA-Z0-9_]+)[ ]?\=[ ]?)?(?P<funcname>[a-zA-Z0-9_]+)\(", line):
+		for match_sub in re.finditer("((?P<assignvar>[a-zA-Z0-9_\-\>\.]+)[ ]?\=[ ]?)?(?P<funcname>[a-zA-Z0-9_]+)\(", line):
 			match_count += 1
 			#if we have at least one match, then check if it calls a function that isn't user defined
 			#TODO: make sure that funcname is not as part of a string which contains a function name for printing only
